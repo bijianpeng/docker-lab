@@ -1,0 +1,4 @@
+version: '2'
+services:
+  client:
+    image: centos_sshd:v1
