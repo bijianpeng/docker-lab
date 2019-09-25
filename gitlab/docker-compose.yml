@@ -1,0 +1,16 @@
+gitlab:
+  image: 'gitlab/gitlab-ce:latest'
+  restart: always
+  hostname: 'gitlab.bjp.com'
+  environment:
+    GITLAB_OMNIBUS_CONFIG: |
+      external_url 'http://192.168.56.99:9090'
+      gitlab_rails['gitlab_shell_ssh_port'] = 9022
+      prometheus_monitoring['enable'] = false
+  ports:
+    - '9090:9090'
+    - '9022:9022'
+  volumes:
+    - '/root/docker/gitlab/config:/etc/gitlab'
+    - '/root/docker/gitlab/logs:/var/log/gitlab'
+    - '/root/docker/gitlab/data:/var/opt/gitlab'
