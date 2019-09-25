@@ -1,0 +1,36 @@
+version: "3"
+services:
+  web:
+    image: tomcat
+    volumes:
+      - /usr/local/tomcat/logs
+    labels:
+      - aliyun.logs.catalina=stdout
+      - aliyun.logs.access=/usr/local/tomcat/logs/localhost_access_log.*.txt
+    ports:
+      - 10080:8080     
+    depends_on:
+      - elk
+      - log-pilot
+      
+  log-pilot:
+    image: registry.cn-hangzhou.aliyuncs.com/acs/log-pilot:0.9.5-filebeat
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /:/host
+    privileged: true
+    environment:
+      - FILEBEAT_OUTPUT=elasticsearch
+      - ELASTICSEARCH_HOST=elk
+      - ELASTICSEARCH_PORT=9200     
+    depends_on:
+      - elk
+   
+  elk:
+    image: sebp/elk
+    ports:
+      - 5601:5601
+      - 9200:9200
+      - 5044:5044
+    environment:
+      - ES_CONNECT_RETRY=90
