@@ -6,6 +6,7 @@ RUN yum -y update
 #安装openssh-server
 RUN yum -y install openssh-server
 RUN yum -y install openssh-clients
+RUN yum -y install which
 #安装jdk1.8
 RUN yum -y install java-1.8.0-openjdk-devel
 
