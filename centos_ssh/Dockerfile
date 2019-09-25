@@ -7,7 +7,7 @@ RUN yum -y update
 RUN yum -y install openssh-server
 RUN yum -y install openssh-clients
 #安装jdk1.8
-RUN yum -y install java-1.8.0-openjdk
+RUN yum -y install java-1.8.0-openjdk-devel
 
 #生成需要的密钥
 RUN rm -rf ssh*key
